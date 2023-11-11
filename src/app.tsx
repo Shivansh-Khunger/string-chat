@@ -1,7 +1,7 @@
 import { ThemeProvider } from "./components/theme-provider.tsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Landing } from "./landing.tsx";
-import { Main } from "./main.tsx";
+import { Chat } from "./chat.tsx";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />}></Route>
-          <Route path="/main" element={<Main />}></Route>
+          <Route path="/Chat" element={<Chat />}></Route>
         </Routes>
       </BrowserRouter>
     </>

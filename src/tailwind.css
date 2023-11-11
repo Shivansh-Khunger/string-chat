@@ -761,6 +761,92 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+@keyframes shake {
+  0% {
+    transform: translateX(0rem);
+  }
+
+  25% {
+    transform: translateX(-1rem);
+  }
+
+  75% {
+    transform: translateX(1rem);
+  }
+
+  100% {
+    transform: translateX(0rem);
+  }
+}
+
+.animate-shake {
+  animation: shake .5s both;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade {
+  animation: fade 1s both;
+}
+
+@keyframes flip-up {
+  0% {
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+  }
+
+  100% {
+    transform: rotateX(0);
+    transform-origin: bottom;
+  }
+}
+
+.animate-flip-up {
+  animation: flip-up 1s both;
+}
+
+@keyframes jump-in {
+  0% {
+    transform: scale(0%);
+  }
+
+  80% {
+    transform: scale(120%);
+  }
+
+  100% {
+    transform: scale(100%);
+  }
+}
+
+.animate-jump-in {
+  animation: jump-in .5s both;
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 1s both;
+}
+
 .cursor-default {
   cursor: default;
 }
@@ -835,14 +921,6 @@ video {
 
 .rounded-xl {
   border-radius: 0.75rem;
-}
-
-.rounded {
-  border-radius: 0.25rem;
-}
-
-.rounded-2xl {
-  border-radius: 1rem;
 }
 
 .rounded-tl-sm {
@@ -971,14 +1049,6 @@ video {
 
 .font-mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-
-.font-serif {
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-}
-
-.font-sans {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .text-3xl {
@@ -1130,6 +1200,114 @@ video {
 
 .duration-300 {
   animation-duration: 300ms;
+}
+
+.animate-delay-700 {
+  animation-delay: 700ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animate-delay-\[800\] {
+  animation-delay: 800;
+}
+
+.animate-delay-\[800ms\] {
+  animation-delay: 800ms;
+}
+
+.animate-delay-\[900s\] {
+  animation-delay: 900s;
+}
+
+.animate-delay-\[900ms\] {
+  animation-delay: 900ms;
+}
+
+.animate-delay-\[700ms\] {
+  animation-delay: 700ms;
+}
+
+.animate-delay-\[750ms\] {
+  animation-delay: 750ms;
+}
+
+.animate-delay-\[850ms\] {
+  animation-delay: 850ms;
+}
+
+.animate-delay-\[1000ms\] {
+  animation-delay: 1000ms;
+}
+
+.animate-delay-\[7500ms\] {
+  animation-delay: 7500ms;
+}
+
+.animate-duration-\[1500ms\] {
+  animation-duration: 1500ms;
+}
+
+.animate-duration-\[1200ms\] {
+  animation-duration: 1200ms;
+}
+
+.animate-duration-\[1000ms\] {
+  animation-duration: 1000ms;
+}
+
+.animate-duration-\[00ms\] {
+  animation-duration: 00ms;
+}
+
+.animate-duration-\[800ms\] {
+  animation-duration: 800ms;
+}
+
+.animate-duration-\[500ms\] {
+  animation-duration: 500ms;
+}
+
+.animate-duration-\[200ms\] {
+  animation-duration: 200ms;
+}
+
+.animate-duration-\[300ms\] {
+  animation-duration: 300ms;
+}
+
+.animate-duration-\[700ms\] {
+  animation-duration: 700ms;
+}
+
+.animate-duration-\[750ms\] {
+  animation-duration: 750ms;
+}
+
+.animate-duration {
+  animation-duration: 150ms;
+}
+
+.animate-duration-\[\] {
+  animation-duration: ;
+}
+
+.animate-infinite {
+  animation-iteration-count: infinite;
+}
+
+.animate-once {
+  animation-iteration-count: 1;
+}
+
+.animate-twice {
+  animation-iteration-count: 2;
 }
 
 .file\:border-0::file-selector-button {
