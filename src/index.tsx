@@ -9,5 +9,5 @@ domNode?.classList.add("h-screen", "bg-slate-300", "bg-polka-dot-pattern");
 ReactDOM.createRoot(domNode!).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

@@ -9,20 +9,34 @@ export function Username() {
   const [toggleError, setToggleError] = useState(false);
   const [landingAnimation, setLandingAnimation] = useState(true);
   const [inputPlaceHolder, setInputPlaceHolder] = useState("username");
+  const [textClickAnimation, settextClickAnimation] = useState(false);
+  const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
 
   const updateUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value) {
-      setUsername(e.target.value);
-    }
+    setUsername(e.target.value);
   };
 
   const inputClasses = classNames(
     "w-52",
-    "border-0",
     "text-black",
     "font-mono",
     "font-bold",
     "text-xl",
+    "border-0",
+    {
+      "animate-shake": toggleError,
+      "animate-duration-[200ms]": toggleError,
+    },
+  );
+
+  const inputContainerClasses = classNames(
+    "h-[6.5vh]",
+    "rounded-xl",
+    "border-black",
+    "flex",
+    "justify-centre",
+    "items-center",
+    "border",
     {
       "animate-flip-up": landingAnimation,
       "animate-once": landingAnimation,
@@ -30,9 +44,36 @@ export function Username() {
       "animate-delay-[700ms]": landingAnimation,
     },
     {
-      "animate-shake": toggleError,
-      "animate-duration-[200ms]": toggleError,
-    }
+      "border-b-[5px]": !textClickAnimation,
+      "border-b-[3.5px]": textClickAnimation,
+    },
+  );
+
+  const buttonClasses = classNames(
+    "font-mono",
+    "text-xl",
+    "font-semibold",
+    "text-black",
+    "border-0",
+    "shadow-none",
+  );
+
+  const buttonContainerClasses = classNames(
+    "flex",
+    "h-[6.5vh]",
+    "animate-flip-up",
+    "items-center",
+    "justify-center",
+    "rounded-xl",
+    "border",
+    "border-black",
+    "animate-delay-[1000ms]",
+    "animate-duration-[1200ms]",
+    "animate-once",
+    {
+      "border-b-[5px]": !buttonClickAnimation,
+      "border-b-[3.5px]": buttonClickAnimation,
+    },
   );
 
   useEffect(() => {
@@ -46,29 +87,46 @@ export function Username() {
   }, [toggleError]);
 
   return (
-    <div className="flex justify-center pb-4 ">
-      <Input
-        type="text"
-        placeholder={inputPlaceHolder}
-        className={inputClasses}
-        value={username}
-        onChange={updateUserName}
-      />
-      <Link to="/chat" state={{ username: username }}>
-        <Button
-          type="submit"
-          className="text-blac font-mono font-semibold text-xl animate-flip-up animate-once animate-duration-[1200ms] animate-delay-[1000ms]"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            if (!username) {
-              e.preventDefault();
-              setToggleError(true);
-              setLandingAnimation(false);
-            }
+    <div className="flex justify-center gap-6 pb-4">
+      <div className={inputContainerClasses}>
+        <Input
+          type="text"
+          placeholder={inputPlaceHolder}
+          className={inputClasses}
+          value={username}
+          onChange={updateUserName}
+          onClick={() => {
+            settextClickAnimation(true);
+            const clickAnimationTimer = setTimeout(() => {
+              settextClickAnimation(false);
+            }, 90);
+            return () => clearTimeout(clickAnimationTimer);
           }}
-        >
-          get id
-        </Button>
-      </Link>
+        />
+      </div>
+
+      <div className={buttonContainerClasses}>
+        <Link to="/chat" state={{ username: username }}>
+          <Button
+            type="submit"
+            className={buttonClasses}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              setButtonClickAnimation(true);
+              const clickAnimationTimer = setTimeout(() => {
+                setButtonClickAnimation(false);
+              }, 100);
+              if (!username) {
+                e.preventDefault();
+                setToggleError(true);
+                setLandingAnimation(false);
+              }
+              return () => clearTimeout(clickAnimationTimer);
+            }}
+          >
+            get id
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
