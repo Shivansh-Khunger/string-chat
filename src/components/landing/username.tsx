@@ -40,7 +40,7 @@ export function Username() {
     {
       "animate-flip-up": landingAnimation,
       "animate-once": landingAnimation,
-      "animate-duration-[1200ms]": landingAnimation,
+      "animate-duration-[1700ms]": landingAnimation,
       "animate-delay-[700ms]": landingAnimation,
     },
     {
@@ -68,7 +68,7 @@ export function Username() {
     "border",
     "border-black",
     "animate-delay-[1000ms]",
-    "animate-duration-[1200ms]",
+    "animate-duration-[1700ms]",
     "animate-once",
     {
       "border-b-[5px]": !buttonClickAnimation,
@@ -102,6 +102,12 @@ export function Username() {
             }, 90);
             return () => clearTimeout(clickAnimationTimer);
           }}
+          onMouseDown={() => {
+            settextClickAnimation(true);
+          }}
+          onMouseOut={() => {
+            settextClickAnimation(false);
+          }}
         />
       </div>
 
@@ -120,7 +126,12 @@ export function Username() {
                 setToggleError(true);
                 setLandingAnimation(false);
               }
-              return () => clearTimeout(clickAnimationTimer);
+            }}
+            onMouseDown={() => {
+              setButtonClickAnimation(true);
+            }}
+            onMouseOut={() => {
+              setButtonClickAnimation(false);
             }}
           >
             get id
