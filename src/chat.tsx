@@ -3,6 +3,7 @@ import Peer from "peerjs";
 import { useEffect, useMemo, useState } from "react";
 import Info from "./components/chat/info";
 import Loading from "./components/chat/loading";
+import ChatBox from "./components/chat/chatBox";
 
 interface User {
   username: string;
@@ -31,7 +32,7 @@ export function Chat() {
       setTransition(true);
       setTimeout(() => {
         setLoading(false);
-      }, 201); // Adjust this value to match the duration of your transition
+      }, 201);
     }
   }, [newUser.id]);
 
@@ -43,8 +44,9 @@ export function Chat() {
   }
   // setTransition(true);
   return (
-    <>
+    <div className="h-screen w-screen">
       <Info idString={newUser.id} username={newUser.username} />
-    </>
+      <ChatBox />
+    </div>
   );
 }

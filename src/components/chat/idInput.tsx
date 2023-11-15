@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 
-export function Username() {
+export function IdInput() {
   const [username, setUsername] = useState("");
   const [toggleError, setToggleError] = useState(false);
   const [landingAnimation, setLandingAnimation] = useState(true);
-  const [inputPlaceHolder, setInputPlaceHolder] = useState("username");
+  const [inputPlaceHolder, setInputPlaceHolder] = useState("their id");
   const [textClickAnimation, settextClickAnimation] = useState(false);
   const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
 
@@ -23,6 +23,7 @@ export function Username() {
     "font-bold",
     "text-xl",
     "border-0",
+    "shadow-none",
     {
       "animate-shake": toggleError,
       "animate-duration-[200ms]": toggleError,
@@ -37,12 +38,12 @@ export function Username() {
     "justify-centre",
     "items-center",
     "border",
-    {
-      "animate-flip-up": landingAnimation,
-      "animate-once": landingAnimation,
-      "animate-duration-[1700ms]": landingAnimation,
-      "animate-delay-[700ms]": landingAnimation,
-    },
+    // {
+    //   "animate-flip-up": landingAnimation,
+    //   "animate-once": landingAnimation,
+    //   "animate-duration-[1700ms]": landingAnimation,
+    //   "animate-delay-[700ms]": landingAnimation,
+    // },
     {
       "border-b-[5px]": !textClickAnimation,
       "border-b-[3.5px]": textClickAnimation,
@@ -61,15 +62,15 @@ export function Username() {
   const buttonContainerClasses = classNames(
     "flex",
     "h-[6.5vh]",
-    "animate-flip-up",
+    // "animate-flip-up",
     "items-center",
     "justify-center",
     "rounded-xl",
     "border",
     "border-black",
-    "animate-delay-[1000ms]",
-    "animate-duration-[1700ms]",
-    "animate-once",
+    // "animate-delay-[1000ms]",
+    // "animate-duration-[1700ms]",
+    // "animate-once",
     {
       "border-b-[5px]": !buttonClickAnimation,
       "border-b-[3.5px]": buttonClickAnimation,
@@ -78,7 +79,7 @@ export function Username() {
 
   useEffect(() => {
     if (toggleError) {
-      setInputPlaceHolder("username ... (!)");
+      setInputPlaceHolder("their id ... (!)");
       const timer = setTimeout(() => {
         setToggleError(false);
       }, 201);
@@ -108,41 +109,33 @@ export function Username() {
           onMouseOut={() => {
             settextClickAnimation(false);
           }}
-          // onKeyDown={() => {
-          //   settextClickAnimation(true);
-          // }}
-          // onKeyUp={() => {
-          //   settextClickAnimation(false);
-          // }}
         />
       </div>
 
       <div className={buttonContainerClasses}>
-        <Link to="/chat" state={{ username: username }}>
-          <Button
-            type="submit"
-            className={buttonClasses}
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-              setButtonClickAnimation(true);
-              const clickAnimationTimer = setTimeout(() => {
-                setButtonClickAnimation(false);
-              }, 100);
-              if (!username) {
-                e.preventDefault();
-                setToggleError(true);
-                setLandingAnimation(false);
-              }
-            }}
-            onMouseDown={() => {
-              setButtonClickAnimation(true);
-            }}
-            onMouseOut={() => {
+        <Button
+          type="submit"
+          className={buttonClasses}
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            setButtonClickAnimation(true);
+            const clickAnimationTimer = setTimeout(() => {
               setButtonClickAnimation(false);
-            }}
-          >
-            get id
-          </Button>
-        </Link>
+            }, 100);
+            if (!username) {
+              e.preventDefault();
+              setToggleError(true);
+              setLandingAnimation(false);
+            }
+          }}
+          onMouseDown={() => {
+            setButtonClickAnimation(true);
+          }}
+          onMouseOut={() => {
+            setButtonClickAnimation(false);
+          }}
+        >
+          get them
+        </Button>
       </div>
     </div>
   );
