@@ -3,17 +3,23 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
+import { idChildProps } from "@/interfaces/childProps";
 
-export function IdInput() {
-  const [username, setUsername] = useState("");
+const IdInput: React.FC<idChildProps> = ({
+  setProvidedID,
+  providedID,
+  setIDInputRecieved,
+}) => {
+  // const [username, setUsername] = useState("");
   const [toggleError, setToggleError] = useState(false);
+  const [lengthError, setLengthError] = useState(false);
   const [landingAnimation, setLandingAnimation] = useState(true);
   const [inputPlaceHolder, setInputPlaceHolder] = useState("their id");
   const [textClickAnimation, settextClickAnimation] = useState(false);
   const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
 
-  const updateUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+  const updateProvidedID = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProvidedID(e.target.value);
   };
 
   const inputClasses = classNames(
@@ -24,9 +30,10 @@ export function IdInput() {
     "text-xl",
     "border-0",
     "shadow-none",
+    "w-[28vh]",
     {
-      "animate-shake": toggleError,
-      "animate-duration-[200ms]": toggleError,
+      "animate-shake": toggleError || lengthError,
+      "animate-duration-[200ms]": toggleError || lengthError,
     },
   );
 
@@ -87,6 +94,18 @@ export function IdInput() {
     }
   }, [toggleError]);
 
+  useEffect(() => {
+    if (lengthError) {
+      setInputPlaceHolder("not a valid id (!)");
+      setProvidedID("");
+      console.log("inside lenght error");
+      const timer = setTimeout(() => {
+        setLengthError(false);
+      }, 201);
+      return () => clearTimeout(timer);
+    }
+  }, [lengthError]);
+
   return (
     <div className="flex justify-center gap-6 pb-4">
       <div className={inputContainerClasses}>
@@ -94,8 +113,8 @@ export function IdInput() {
           type="text"
           placeholder={inputPlaceHolder}
           className={inputClasses}
-          value={username}
-          onChange={updateUserName}
+          value={providedID}
+          onChange={updateProvidedID}
           onClick={() => {
             settextClickAnimation(true);
             const clickAnimationTimer = setTimeout(() => {
@@ -121,10 +140,16 @@ export function IdInput() {
             const clickAnimationTimer = setTimeout(() => {
               setButtonClickAnimation(false);
             }, 100);
-            if (!username) {
+            if (!providedID) {
               e.preventDefault();
               setToggleError(true);
               setLandingAnimation(false);
+            }
+            if (providedID.length < 36 || providedID.length > 36) {
+              setLengthError(true);
+            }
+            if (providedID.length == 36) {
+              setIDInputRecieved(true);
             }
           }}
           onMouseDown={() => {
@@ -139,4 +164,6 @@ export function IdInput() {
       </div>
     </div>
   );
-}
+};
+
+export default IdInput;

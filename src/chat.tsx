@@ -4,11 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Info from "./components/chat/info";
 import Loading from "./components/chat/loading";
 import ChatBox from "./components/chat/chatBox";
-
-interface User {
-  username: string;
-  id: string;
-}
+import { User } from "./interfaces/user";
 
 export function Chat() {
   let { state } = useLocation();
@@ -16,8 +12,9 @@ export function Chat() {
 
   const [newUser, setNewUser] = useState<User>({
     username: state.username,
-    id: "",
+    module: peer,
   });
+
   const [transition, setTransition] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -28,16 +25,16 @@ export function Chat() {
   }, [peer]);
 
   useEffect(() => {
-    if (newUser.id) {
+    if (peer.id) {
       setTransition(true);
       setTimeout(() => {
         setLoading(false);
       }, 201);
     }
-  }, [newUser.id]);
+  }, [peer.id]);
 
   console.log("Username - ", newUser.username);
-  console.log("Id - ", newUser.id);
+  console.log("Id - ", newUser.module.id);
 
   if (loading) {
     return <Loading transition={transition} />;
@@ -45,8 +42,8 @@ export function Chat() {
   // setTransition(true);
   return (
     <div className="h-screen w-screen">
-      <Info idString={newUser.id} username={newUser.username} />
-      <ChatBox />
+      <Info idString={newUser.module.id} username={newUser.username} />
+      <ChatBox {...newUser} />
     </div>
   );
 }
