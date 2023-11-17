@@ -1,12 +1,12 @@
 import IdInput from "./idInput";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
-import { idChildProps } from "@/interfaces/childProps";
+import { idChildProps } from "@/interfaces/idChildProps";
 
 const WaitingConnection: React.FC<idChildProps> = ({
   setProvidedID,
   providedID,
-  setIDInputRecieved
+  setIDInputRecieved,
 }) => {
   const [waitingDown, setWaitingDown] = useState(false);
 
@@ -48,7 +48,11 @@ const WaitingConnection: React.FC<idChildProps> = ({
             <div className="flex justify-center">
               want to connect to somebody?
             </div>
-            <IdInput setProvidedID={setProvidedID} providedID={providedID} setIDInputRecieved={setIDInputRecieved} />
+            <IdInput
+              setProvidedID={setProvidedID}
+              providedID={providedID}
+              setIDInputRecieved={setIDInputRecieved}
+            />
           </div>
         </div>
       </div>

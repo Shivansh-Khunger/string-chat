@@ -5,35 +5,29 @@ import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { idChildProps } from "@/interfaces/idChildProps";
 
-const IdInput: React.FC<idChildProps> = ({
-  setProvidedID,
-  providedID,
-  setIDInputRecieved,
-}) => {
+const MessageInput = () => {
   // const [username, setUsername] = useState("");
   const [toggleError, setToggleError] = useState(false);
-  const [lengthError, setLengthError] = useState(false);
   const [landingAnimation, setLandingAnimation] = useState(true);
-  const [inputPlaceHolder, setInputPlaceHolder] = useState("their id");
+  const [inputPlaceHolder, setInputPlaceHolder] = useState("your text");
   const [textClickAnimation, settextClickAnimation] = useState(false);
   const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
 
-  const updateProvidedID = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProvidedID(e.target.value);
-  };
+  //   const updateProvidedID = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     setProvidedID(e.target.value);
+  //   };
 
   const inputClasses = classNames(
-    "w-52",
     "text-black",
     "font-mono",
     "font-bold",
     "text-xl",
     "border-0",
     "shadow-none",
-    "w-[28vh]",
+    "w-[115vh]",
     {
-      "animate-shake": toggleError || lengthError,
-      "animate-duration-[200ms]": toggleError || lengthError,
+      "animate-shake": toggleError,
+      "animate-duration-[200ms]": toggleError,
     },
   );
 
@@ -86,25 +80,13 @@ const IdInput: React.FC<idChildProps> = ({
 
   useEffect(() => {
     if (toggleError) {
-      setInputPlaceHolder("their id ... (!)");
+      setInputPlaceHolder("your text ... (!)");
       const timer = setTimeout(() => {
         setToggleError(false);
       }, 201);
       return () => clearTimeout(timer);
     }
   }, [toggleError]);
-
-  useEffect(() => {
-    if (lengthError) {
-      setInputPlaceHolder("not a valid id (!)");
-      setProvidedID("");
-      console.log("inside lenght error");
-      const timer = setTimeout(() => {
-        setLengthError(false);
-      }, 201);
-      return () => clearTimeout(timer);
-    }
-  }, [lengthError]);
 
   return (
     <div className="flex justify-center gap-6 pb-4">
@@ -113,8 +95,8 @@ const IdInput: React.FC<idChildProps> = ({
           type="text"
           placeholder={inputPlaceHolder}
           className={inputClasses}
-          value={providedID}
-          onChange={updateProvidedID}
+          //   value={providedID}
+          //   onChange={updateProvidedID}
           onClick={() => {
             settextClickAnimation(true);
             const clickAnimationTimer = setTimeout(() => {
@@ -140,17 +122,17 @@ const IdInput: React.FC<idChildProps> = ({
             const clickAnimationTimer = setTimeout(() => {
               setButtonClickAnimation(false);
             }, 100);
-            if (!providedID) {
-              e.preventDefault();
-              setToggleError(true);
-              setLandingAnimation(false);
-            }
-            if (providedID.length < 36 || providedID.length > 36) {
-              setLengthError(true);
-            }
-            if (providedID.length == 36) {
-              setIDInputRecieved(true);
-            }
+            // if (!providedID) {
+            //   e.preventDefault();
+            //   setToggleError(true);
+            //   setLandingAnimation(false);
+            // }
+            // if (providedID.length < 36 || providedID.length > 36) {
+            //   setLengthError(true);
+            // }
+            // if (providedID.length == 36) {
+            //   setIDInputRecieved(true);
+            // }
           }}
           onMouseDown={() => {
             setButtonClickAnimation(true);
@@ -159,11 +141,11 @@ const IdInput: React.FC<idChildProps> = ({
             setButtonClickAnimation(false);
           }}
         >
-          get them
+          send text
         </Button>
       </div>
     </div>
   );
 };
 
-export default IdInput;
+export default MessageInput;

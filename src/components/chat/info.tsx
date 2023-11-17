@@ -30,7 +30,6 @@ export default function Info(props: InfoProps) {
       "animate-duration[1500m]": landingAnimation,
     },
     "shadow-black",
-    "shadow-fill",
     {
       "shadow-[0px_5px_0px_0px_black]": !clickAnimation,
       "shadow-[0px_3px_0px_0px_black]": clickAnimation,

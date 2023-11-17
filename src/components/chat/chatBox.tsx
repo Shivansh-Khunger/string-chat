@@ -1,5 +1,6 @@
 import { User } from "@/interfaces/user";
 import WaitingConnection from "./waitingConnection";
+import ChatBoxContent from "./chatBoxContent";
 import { SetStateAction, useEffect, useState } from "react";
 
 export default function ChatBox(newUser: User) {
@@ -26,15 +27,15 @@ export default function ChatBox(newUser: User) {
 
   return (
     <div className="flex h-[90%] w-full items-center justify-center font-mono ">
-      <div className="flex h-[89%] w-[90%] items-center justify-center rounded-[30px] border-2 border-b-8 border-black bg-slate-300">
+      <div className="flex h-[92%] w-[80%] items-center justify-center rounded-[30px] border-2 border-b-8 border-black bg-slate-300">
         {connectionMade ? (
-          <div>other side</div>
-        ) : (
           <WaitingConnection
             setProvidedID={setProvidedID}
             providedID={providedID}
             setIDInputRecieved={setIDInputRecieved}
           />
+        ) : (
+          <ChatBoxContent />
         )}
       </div>
     </div>
