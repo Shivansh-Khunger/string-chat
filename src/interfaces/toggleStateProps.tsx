@@ -1,5 +1,5 @@
 export interface ToggleStateProps {
   value: boolean;
-  setValue: (value: boolean) => void;
+  setValue: React.Dispatch<React.SetStateAction<boolean>>;
   delay: number;
 }

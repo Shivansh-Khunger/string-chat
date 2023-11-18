@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
-import { toggleStateHook } from "@/idk/toggleStateUseEffect";
+import { ToggleStateOnRenderHook } from "@/idk/toggleStateUseEffectOnRender";
 
 export function Username() {
   let navigate = useNavigate();
@@ -75,8 +75,7 @@ export function Username() {
     }
   }, [toggleError]);
 
-
-  toggleStateHook({
+  ToggleStateOnRenderHook({
     value: landingAnimation,
     setValue: setLandingAnimation,
     delay: 2101,

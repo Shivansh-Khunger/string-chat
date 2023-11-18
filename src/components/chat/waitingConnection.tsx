@@ -2,6 +2,7 @@ import IdInput from "./idInput";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { idChildProps } from "@/interfaces/idChildProps";
+import { ToggleStateOnStateChangeHook } from "@/idk/toggleStateUseEffectOnRender";
 
 const WaitingConnection: React.FC<idChildProps> = ({
   setProvidedID,
@@ -28,14 +29,20 @@ const WaitingConnection: React.FC<idChildProps> = ({
     },
   ]);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setWaitingDown((prevValue) => {
-        return !prevValue;
-      });
-    }, 900);
-    return () => clearTimeout(timeout);
-  }, [waitingDown]);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     setWaitingDown((prevValue) => {
+  //       return !prevValue;
+  //     });
+  //   }, 900);
+  //   return () => clearTimeout(timeout);
+  // }, [waitingDown]);
+
+  ToggleStateOnStateChangeHook({
+    value: waitingDown,
+    setValue: setWaitingDown,
+    delay: 900,
+  });
 
   return (
     <div>

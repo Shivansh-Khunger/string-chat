@@ -29,13 +29,13 @@ export default function ChatBox(newUser: User) {
     <div className="flex h-[90%] w-full items-center justify-center font-mono ">
       <div className="flex h-[97%] w-[80%] items-center justify-center rounded-[30px] border-2 border-b-8 border-black bg-slate-300">
         {connectionMade ? (
+          <ChatBoxContent />
+        ) : (
           <WaitingConnection
             setProvidedID={setProvidedID}
             providedID={providedID}
             setIDInputRecieved={setIDInputRecieved}
           />
-        ) : (
-          <ChatBoxContent />
         )}
       </div>
     </div>
