@@ -3,7 +3,7 @@ import { messageProps } from "@/interfaces/messagesProps";
 const SendMessage: React.FC<messageProps> = ({ message, username }) => {
   return (
     <>
-      <li className="my-4 ml-[46rem] flex items-end justify-center gap-2">
+      <li className="my-4 ml-[46rem] flex items-end justify-end gap-2">
         <p className="rounded-lg border border-black p-2 font-semibold shadow-[3px_3px_0px_0px_black] shadow-black ">
           {message}
         </p>

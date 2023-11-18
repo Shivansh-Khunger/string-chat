@@ -23,11 +23,12 @@ export default function Info(props: InfoProps) {
     "border-black",
     "bg-slate-300",
     "font-mono",
+    "will-change-transform",
     {
       "animate-fade-down": landingAnimation,
       "animate-normal": landingAnimation,
       "animate-once": landingAnimation,
-      "animate-duration[1500m]": landingAnimation,
+      "animate-duration[1500ms]": landingAnimation,
     },
     "shadow-black",
     {
@@ -37,19 +38,22 @@ export default function Info(props: InfoProps) {
       "duration-150": clickAnimation,
       "transition-all": clickAnimation,
       "ease-in-out": clickAnimation,
-      "will-change-transform": clickAnimation,
     },
   );
 
-  const buttonContainerClasses = classNames("rounded-xl", "border-black", {
-    "shadow-[0px_3px_0px_0px_black]": !clickAnimation,
-    "shadow-[0px_1px_0px_0px_black]": clickAnimation,
-    "translate-y-[2px]": clickAnimation,
-    "duration-150": clickAnimation,
-    "transition-all": clickAnimation,
-    "ease-in-out": clickAnimation,
-    "will-change-transform": clickAnimation,
-  });
+  const buttonContainerClasses = classNames(
+    "rounded-xl",
+    "border-black",
+    "will-change-transform",
+    {
+      "shadow-[0px_3px_0px_0px_black]": !clickAnimation,
+      "shadow-[0px_1px_0px_0px_black]": clickAnimation,
+      "translate-y-[2px]": clickAnimation,
+      "duration-150": clickAnimation,
+      "transition-all": clickAnimation,
+      "ease-in-out": clickAnimation,
+    },
+  );
 
   return (
     <div className="relative flex w-screen justify-center p-[5px]">

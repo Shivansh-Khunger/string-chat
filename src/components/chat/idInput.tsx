@@ -1,86 +1,62 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+
 import { useEffect, useState } from "react";
-import classNames from "classnames";
+
 import { idChildProps } from "@/interfaces/idChildProps";
+
+import clsx from "clsx";
 
 const IdInput: React.FC<idChildProps> = ({
   setProvidedID,
   providedID,
   setIDInputRecieved,
 }) => {
-  // const [username, setUsername] = useState("");
   const [toggleError, setToggleError] = useState(false);
   const [lengthError, setLengthError] = useState(false);
   const [landingAnimation, setLandingAnimation] = useState(true);
   const [inputPlaceHolder, setInputPlaceHolder] = useState("their id");
-  const [textClickAnimation, settextClickAnimation] = useState(false);
-  const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
 
   const updateProvidedID = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProvidedID(e.target.value);
   };
 
-  const inputClasses = classNames(
-    "w-52",
-    "text-black",
-    "font-mono",
-    "font-bold",
-    "text-xl",
-    "border-0",
-    "shadow-none",
-    "w-[28vh]",
+  const inputClasses = clsx(
+    // general
+    "justify-centre flex h-[6.5vh] w-52 items-center rounded-xl border border-b-0 border-black font-mono text-xl font-bold text-black shadow-[0px_4.5px_0px_0px_black] outline-none transition-all duration-300 ease-in-out will-change-transform",
+
+    // focus
+    "focus:translate-y-[-1px] focus:shadow-[-2px_5.5px_0px_0px_black] focus:ease-linear",
+
+    // active
+    "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100",
+
     {
-      "animate-shake": toggleError || lengthError,
-      "animate-duration-[200ms]": toggleError || lengthError,
+      // landing animation
+      "animate-fade-up animate-delay-[700ms] animate-duration-[1500ms] animate-once":
+        landingAnimation,
+    },
+
+    {
+      // error toggling
+      " animate-shake animate-duration-[200ms]": toggleError,
     },
   );
 
-  const inputContainerClasses = classNames(
-    "h-[6.5vh]",
-    "rounded-xl",
-    "border-black",
-    "flex",
-    "justify-centre",
-    "items-center",
-    "border",
-    // {
-    //   "animate-flip-up": landingAnimation,
-    //   "animate-once": landingAnimation,
-    //   "animate-duration-[1700ms]": landingAnimation,
-    //   "animate-delay-[700ms]": landingAnimation,
-    // },
-    {
-      "border-b-[5px]": !textClickAnimation,
-      "border-b-[3.5px]": textClickAnimation,
-    },
-  );
+  const buttonClasses = clsx(
+    // general
+    "group flex h-[6.5vh] items-center justify-center rounded-xl border border-b-0 border-black font-mono text-xl font-semibold text-black shadow-[0px_4.5px_0px_0px_black] transition-all duration-300 ease-in-out will-change-transform",
 
-  const buttonClasses = classNames(
-    "font-mono",
-    "text-xl",
-    "font-semibold",
-    "text-black",
-    "border-0",
-    "shadow-none",
-  );
+    // focus
+    "hover:-translate-y-[2px] hover:shadow-[-2px_5.5px_0px_0px_black]",
 
-  const buttonContainerClasses = classNames(
-    "flex",
-    "h-[6.5vh]",
-    // "animate-flip-up",
-    "items-center",
-    "justify-center",
-    "rounded-xl",
-    "border",
-    "border-black",
-    // "animate-delay-[1000ms]",
-    // "animate-duration-[1700ms]",
-    // "animate-once",
+    // active
+    "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100",
+
+    // landing animation
     {
-      "border-b-[5px]": !buttonClickAnimation,
-      "border-b-[3.5px]": buttonClickAnimation,
+      "animate-fade-up animate-delay-[1000ms] animate-duration-[1500ms] animate-once":
+        landingAnimation,
     },
   );
 
@@ -108,60 +84,33 @@ const IdInput: React.FC<idChildProps> = ({
 
   return (
     <div className="flex justify-center gap-6 pb-4">
-      <div className={inputContainerClasses}>
-        <Input
-          type="text"
-          placeholder={inputPlaceHolder}
-          className={inputClasses}
-          value={providedID}
-          onChange={updateProvidedID}
-          onClick={() => {
-            settextClickAnimation(true);
-            const clickAnimationTimer = setTimeout(() => {
-              settextClickAnimation(false);
-            }, 90);
-            return () => clearTimeout(clickAnimationTimer);
-          }}
-          onMouseDown={() => {
-            settextClickAnimation(true);
-          }}
-          onMouseOut={() => {
-            settextClickAnimation(false);
-          }}
-        />
-      </div>
+      <Input
+        type="text"
+        placeholder={inputPlaceHolder}
+        className={inputClasses}
+        value={providedID}
+        onChange={updateProvidedID}
+      />
 
-      <div className={buttonContainerClasses}>
-        <Button
-          type="submit"
-          className={buttonClasses}
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            setButtonClickAnimation(true);
-            const clickAnimationTimer = setTimeout(() => {
-              setButtonClickAnimation(false);
-            }, 100);
-            if (!providedID) {
-              e.preventDefault();
-              setToggleError(true);
-              setLandingAnimation(false);
-            }
-            if (providedID.length < 36 || providedID.length > 36) {
-              setLengthError(true);
-            }
-            if (providedID.length == 36) {
-              setIDInputRecieved(true);
-            }
-          }}
-          onMouseDown={() => {
-            setButtonClickAnimation(true);
-          }}
-          onMouseOut={() => {
-            setButtonClickAnimation(false);
-          }}
-        >
-          get them
-        </Button>
-      </div>
+      <Button
+        type="submit"
+        className={buttonClasses}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          if (!providedID) {
+            e.preventDefault();
+            setToggleError(true);
+            setLandingAnimation(false);
+          }
+          if (providedID.length < 36 || providedID.length > 36) {
+            setLengthError(true);
+          }
+          if (providedID.length == 36) {
+            setIDInputRecieved(true);
+          }
+        }}
+      >
+        get them
+      </Button>
     </div>
   );
 };

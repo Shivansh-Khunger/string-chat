@@ -3,7 +3,7 @@ interface LoadingProps {
 }
 
 import classNames from "classnames";
-export default function Loading(props: LoadingProps) {
+const Loading: React.FC<LoadingProps> = ({ transition }) => {
   const containerClasses = classNames(
     "flex",
     "h-screen",
@@ -11,16 +11,16 @@ export default function Loading(props: LoadingProps) {
     "items-center",
     "justify-center",
     {
-      "animate-delay-200": !props.transition,
-      "animate-duration-[750ms]": !props.transition,
-      "animate-once": !props.transition,
-      "animate-fade-up": !props.transition,
+      "animate-delay-200": !transition,
+      "animate-duration-[750ms]": !transition,
+      "animate-once": !transition,
+      "animate-fade-up": !transition,
     },
     {
-      "animate-fade-down": props.transition,
-      "animate-once": props.transition,
-      "animate-reverse": props.transition,
-      "animate-duration-[200ms]": props.transition,
+      "animate-fade-down": transition,
+      "animate-once": transition,
+      "animate-reverse": transition,
+      "animate-duration-[200ms]": transition,
     },
   );
   return (
@@ -32,4 +32,6 @@ export default function Loading(props: LoadingProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Loading;

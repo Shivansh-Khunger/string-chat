@@ -7,7 +7,12 @@ const username_2 = "computer-2";
 const ChatBoxContent = () => {
   return (
     <div className="h-full w-full">
-      <div className="flex h-[90%] w-full justify-evenly">
+      {/* <div className="flex h-[5%] w-full justify-center">
+        <div className="flex min-w-min justify-center rounded-2xl border-x-[1.5px] border-black px-2 text-xl font-semibold shadow-[0px_3px_0px_0px_black]">
+          connected to {username_1}
+        </div>
+      </div> */}
+      <div className="flex h-[86%] w-full justify-evenly">
         <ul className=" flex h-full flex-col justify-end overflow-y-hidden text-xl">
           <RecieveMessage
             message="Hey Man What Are you doing"

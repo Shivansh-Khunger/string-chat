@@ -89,7 +89,7 @@ const MessageInput = () => {
   }, [toggleError]);
 
   return (
-    <div className="flex justify-center gap-6 pb-4">
+    <div className="flex h-[7%] justify-center gap-6 pb-4">
       <div className={inputContainerClasses}>
         <Input
           type="text"

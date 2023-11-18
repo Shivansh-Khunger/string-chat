@@ -1,80 +1,69 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Input } from "@/components/ui/modifiedInput";
+
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import classNames from "classnames";
+
+import clsx from "clsx";
+
+import { toggleStateHook } from "@/idk/toggleStateUseEffect";
 
 export function Username() {
+  let navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [toggleError, setToggleError] = useState(false);
   const [landingAnimation, setLandingAnimation] = useState(true);
   const [inputPlaceHolder, setInputPlaceHolder] = useState("username");
-  const [textClickAnimation, settextClickAnimation] = useState(false);
-  const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
 
   const updateUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
 
-  const inputClasses = classNames(
-    "w-52",
-    "text-black",
-    "font-mono",
-    "font-bold",
-    "text-xl",
-    "border-0",
+  const inputClasses = clsx(
+    // general
+    "justify-centre flex h-[6.5vh] w-52 items-center rounded-xl border border-b-0 border-black font-mono text-xl font-bold text-black shadow-[0px_4.5px_0px_0px_black] outline-none transition-all duration-300 ease-in-out will-change-transform",
+
+    // focus
+    "focus:translate-y-[-1px] focus:shadow-[-2px_5.5px_0px_0px_black] focus:ease-linear",
+
+    // active
+    "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100",
+
     {
-      "animate-shake": toggleError,
-      "animate-duration-[200ms]": toggleError,
+      // landing animation
+      "animate-fade-up animate-delay-[700ms] animate-duration-[1500ms] animate-once":
+        landingAnimation,
+    },
+
+    {
+      // error toggling
+      " animate-shake animate-duration-[200ms]": toggleError,
     },
   );
 
-  const inputContainerClasses = classNames(
-    "h-[6.5vh]",
-    "rounded-xl",
-    "border-black",
-    "flex",
-    "justify-centre",
-    "items-center",
-    "border",
+  const buttonClasses = clsx(
+    // general
+    "group flex h-[6.5vh] items-center justify-center rounded-xl border border-b-0 border-black font-mono text-xl font-semibold text-black shadow-[0px_4.5px_0px_0px_black] transition-all duration-300 ease-in-out will-change-transform",
+
+    // focus
+    "hover:-translate-y-[2px] hover:shadow-[-2px_5.5px_0px_0px_black]",
+
+    // active
+    "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100",
+
+    // landing animation
     {
-      "animate-flip-up": landingAnimation,
-      "animate-once": landingAnimation,
-      "animate-duration-[1700ms]": landingAnimation,
-      "animate-delay-[700ms]": landingAnimation,
-    },
-    {
-      "border-b-[5px]": !textClickAnimation,
-      "border-b-[3.5px]": textClickAnimation,
+      "animate-fade-up animate-delay-[1000ms] animate-duration-[1500ms] animate-once":
+        landingAnimation,
     },
   );
 
-  const buttonClasses = classNames(
-    "font-mono",
-    "text-xl",
-    "font-semibold",
-    "text-black",
-    "border-0",
-    "shadow-none",
-  );
-
-  const buttonContainerClasses = classNames(
-    "flex",
-    "h-[6.5vh]",
-    "animate-flip-up",
-    "items-center",
-    "justify-center",
-    "rounded-xl",
-    "border",
-    "border-black",
-    "animate-delay-[1000ms]",
-    "animate-duration-[1700ms]",
-    "animate-once",
-    {
-      "border-b-[5px]": !buttonClickAnimation,
-      "border-b-[3.5px]": buttonClickAnimation,
-    },
-  );
+  function onEnterPress(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key == "Enter") {
+      navigate("/chat", { state: { username: username } });
+    }
+  }
 
   useEffect(() => {
     if (toggleError) {
@@ -86,64 +75,62 @@ export function Username() {
     }
   }, [toggleError]);
 
-  return (
-    <div className="flex justify-center gap-6 pb-4">
-      <div className={inputContainerClasses}>
-        <Input
-          type="text"
-          placeholder={inputPlaceHolder}
-          className={inputClasses}
-          value={username}
-          onChange={updateUserName}
-          onClick={() => {
-            settextClickAnimation(true);
-            const clickAnimationTimer = setTimeout(() => {
-              settextClickAnimation(false);
-            }, 90);
-            return () => clearTimeout(clickAnimationTimer);
-          }}
-          onMouseDown={() => {
-            settextClickAnimation(true);
-          }}
-          onMouseOut={() => {
-            settextClickAnimation(false);
-          }}
-          // onKeyDown={() => {
-          //   settextClickAnimation(true);
-          // }}
-          // onKeyUp={() => {
-          //   settextClickAnimation(false);
-          // }}
-        />
-      </div>
 
-      <div className={buttonContainerClasses}>
-        <Link to="/chat" state={{ username: username }}>
-          <Button
-            type="submit"
-            className={buttonClasses}
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-              setButtonClickAnimation(true);
-              const clickAnimationTimer = setTimeout(() => {
-                setButtonClickAnimation(false);
-              }, 100);
-              if (!username) {
-                e.preventDefault();
-                setToggleError(true);
-                setLandingAnimation(false);
-              }
-            }}
-            onMouseDown={() => {
-              setButtonClickAnimation(true);
-            }}
-            onMouseOut={() => {
-              setButtonClickAnimation(false);
-            }}
+  toggleStateHook({
+    value: landingAnimation,
+    setValue: setLandingAnimation,
+    delay: 2101,
+  });
+
+  return (
+    <div className="mb-4 flex items-center justify-center gap-6">
+      <Input
+        type="text"
+        placeholder={inputPlaceHolder}
+        className={inputClasses}
+        value={username}
+        onChange={updateUserName}
+        onKeyUp={(e: React.KeyboardEvent<HTMLDivElement>) => {
+          onEnterPress(e);
+        }}
+        disabled={landingAnimation}
+      />
+      <Button
+        type="submit"
+        className={buttonClasses}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          if (!username) {
+            e.preventDefault();
+            setToggleError(true);
+          } else {
+            setTimeout(() => {
+              navigate("/chat", { state: { username: username } });
+            }, 150);
+          }
+        }}
+        disabled={landingAnimation}
+      >
+        get id
+        <div className="ml-2 scale-150">
+          <svg
+            className="stroke-black stroke-2"
+            fill="none"
+            width="18"
+            height="10"
+            viewBox="0 0 10 10"
+            aria-hidden="true"
           >
-            get id
-          </Button>
-        </Link>
-      </div>
+            <path
+              className="opacity-0 transition duration-300 group-hover:opacity-100"
+              d="M0 5h7"
+            ></path>
+            <path
+              className="transition duration-200 group-hover:translate-x-[7.2px]"
+              d="M1 1l4 4-4 4"
+            ></path>
+          </svg>
+        </div>
+      </Button>
     </div>
   );
 }
