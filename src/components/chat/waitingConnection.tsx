@@ -11,6 +11,7 @@ const WaitingConnection: React.FC<idChildProps> = ({
   setProvidedID,
   providedID,
   setIDInputRecieved,
+  user,
 }) => {
   const [iswaitingContainerDown, setIswaitingContainerDown] = useState(false);
   const [landingAnimationDone, setlandingAnimationDone] = useState(false);
@@ -54,6 +55,7 @@ const WaitingConnection: React.FC<idChildProps> = ({
             setProvidedID={setProvidedID}
             providedID={providedID}
             setIDInputRecieved={setIDInputRecieved}
+            user={user}
           />
         </div>
       </div>

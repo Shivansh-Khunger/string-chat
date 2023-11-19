@@ -12,9 +12,11 @@ const IdInput: React.FC<idChildProps> = ({
   setProvidedID,
   providedID,
   setIDInputRecieved,
+  user,
 }) => {
   const [toggleError, setToggleError] = useState(false);
   const [lengthError, setLengthError] = useState(false);
+  const [ownIDError, setOwnIDError] = useState(false);
   const [landingAnimationDone, setlandingAnimationDone] = useState(true);
   const [inputPlaceHolder, setInputPlaceHolder] = useState("their id");
 
@@ -24,7 +26,7 @@ const IdInput: React.FC<idChildProps> = ({
 
   const inputClasses = clsx(
     // general
-    "justify-centre flex h-[6.5vh] w-60 items-center rounded-xl border border-b-0 border-black font-mono text-xl font-bold text-black shadow-[0px_4.5px_0px_0px_black] outline-none transition-all duration-300 ease-in-out will-change-transform",
+    "justify-centre flex h-[6.5vh] w-64 items-center rounded-xl border border-b-0 border-black font-mono text-xl font-bold text-black shadow-[0px_4.5px_0px_0px_black] outline-none transition-all duration-300 ease-in-out will-change-transform",
 
     // focus
     "focus:translate-y-[-1px] focus:shadow-[-2px_5.5px_0px_0px_black] focus:ease-linear",
@@ -73,8 +75,8 @@ const IdInput: React.FC<idChildProps> = ({
 
   useEffect(() => {
     if (lengthError) {
-      setInputPlaceHolder("not a valid id (!)");
       setProvidedID("");
+      setInputPlaceHolder("not a valid id (!)");
       console.log("inside lenght error");
       const timer = setTimeout(() => {
         setLengthError(false);
@@ -82,6 +84,18 @@ const IdInput: React.FC<idChildProps> = ({
       return () => clearTimeout(timer);
     }
   }, [lengthError]);
+
+  useEffect(() => {
+    if (ownIDError) {
+      setProvidedID("");
+      setInputPlaceHolder("can't use own id (!)");
+      console.log("inside ownIDError error");
+      const timer = setTimeout(() => {
+        setOwnIDError(false);
+      }, 201);
+      return () => clearTimeout(timer);
+    }
+  }, [ownIDError]);
 
   ToggleStateOnRenderHook({
     value: landingAnimationDone,
@@ -110,8 +124,11 @@ const IdInput: React.FC<idChildProps> = ({
           if (providedID.length < 36 || providedID.length > 36) {
             setLengthError(true);
           }
-          if (providedID.length == 36) {
+          if (providedID.length == 36 && providedID != user.module.id) {
             setIDInputRecieved(true);
+          }
+          if (providedID === user.module.id) {
+            setOwnIDError(true);
           }
         }}
       >

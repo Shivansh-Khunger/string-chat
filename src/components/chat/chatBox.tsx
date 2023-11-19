@@ -36,6 +36,7 @@ export default function ChatBox(newUser: User) {
             setProvidedID={setProvidedID}
             providedID={providedID}
             setIDInputRecieved={setIDInputRecieved}
+            user={newUser}
           />
         )}
       </div>
