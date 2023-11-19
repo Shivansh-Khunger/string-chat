@@ -8,7 +8,9 @@ export const ToggleStateOnRenderHook = ({
 }: ToggleStateProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      setValue(false);
+      setValue((prevValue) => {
+        return !prevValue;
+      });
     }, delay);
     return () => clearTimeout(timer);
   }, []);

@@ -1,66 +1,60 @@
 import IdInput from "./idInput";
 import { useEffect, useState } from "react";
-import classNames from "classnames";
+import clsx from "clsx";
 import { idChildProps } from "@/interfaces/idChildProps";
-import { ToggleStateOnStateChangeHook } from "@/idk/toggleStateUseEffectOnRender";
+import {
+  ToggleStateOnRenderHook,
+  ToggleStateOnStateChangeHook,
+} from "@/idk/toggleStateUseEffectOnRender";
 
 const WaitingConnection: React.FC<idChildProps> = ({
   setProvidedID,
   providedID,
   setIDInputRecieved,
 }) => {
-  const [waitingDown, setWaitingDown] = useState(false);
+  const [iswaitingContainerDown, setIswaitingContainerDown] = useState(false);
+  const [landingAnimationDone, setlandingAnimationDone] = useState(false);
 
-  const waitingClasses = classNames([
-    "flex",
-    "justify-center",
-    "gap-2",
-    "rounded-2xl",
-    "border-2",
-    "border-black",
-    "p-2",
-    "text-4xl",
-    "absolute",
-    "will-change-transform",
+  const waitingClasses = clsx([
+    " flex justify-center gap-2 rounded-2xl border-2 border-t-0 border-black p-2 text-4xl transition-all will-change-transform ",
     {
-      "shadow-[0px_-3px_0px_0px_black]": !waitingDown,
-      "shadow-[0px_-5px_0px_0px_black]": waitingDown,
-      "translate-y-[2px]": waitingDown,
+      "animate-fade-down animate-delay-700 animate-duration-500":
+        !landingAnimationDone,
+    },
+    {
+      "shadow-[0px_-3px_0px_0px_black] ": !iswaitingContainerDown,
+      "translate-y-[2px] shadow-[0px_-5px_0px_0px_black]":
+        iswaitingContainerDown,
     },
   ]);
 
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     setWaitingDown((prevValue) => {
-  //       return !prevValue;
-  //     });
-  //   }, 900);
-  //   return () => clearTimeout(timeout);
-  // }, [waitingDown]);
-
   ToggleStateOnStateChangeHook({
-    value: waitingDown,
-    setValue: setWaitingDown,
+    value: iswaitingContainerDown,
+    setValue: setIswaitingContainerDown,
     delay: 900,
   });
 
+  ToggleStateOnRenderHook({
+    value: landingAnimationDone,
+    setValue: setlandingAnimationDone,
+    delay: 1801,
+  });
+
   return (
-    <div>
-      <div className="flex justify-center text-3xl">
-        <div
-          className="m-2 flex items-center justify-center rounded-2xl border-2 border-b-[5px]
-            border-black p-2 text-4xl"
-        >
-          <div className="flex-col gap-2">
-            <div className="flex justify-center">
-              want to connect to somebody?
-            </div>
-            <IdInput
-              setProvidedID={setProvidedID}
-              providedID={providedID}
-              setIDInputRecieved={setIDInputRecieved}
-            />
+    <div className="animate-fade animate-duration-500">
+      <div
+        className="m-2 mb-4 flex animate-fade-down items-center justify-center rounded-2xl
+            border-2 border-black p-2 text-4xl shadow-[0px_3.5px_0px_0px_black] animate-delay-500 animate-duration-500"
+      >
+        <div className="flex-col gap-2">
+          <div className="flex justify-center">
+            want to connect to somebody?
           </div>
+          <IdInput
+            setProvidedID={setProvidedID}
+            providedID={providedID}
+            setIDInputRecieved={setIDInputRecieved}
+          />
         </div>
       </div>
       <div className="flex justify-center">

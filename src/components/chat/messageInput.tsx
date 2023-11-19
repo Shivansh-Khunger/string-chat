@@ -8,7 +8,7 @@ import { idChildProps } from "@/interfaces/idChildProps";
 const MessageInput = () => {
   // const [username, setUsername] = useState("");
   const [toggleError, setToggleError] = useState(false);
-  const [landingAnimation, setLandingAnimation] = useState(true);
+  const [landingAnimationDone, setlandingAnimationDone] = useState(true);
   const [inputPlaceHolder, setInputPlaceHolder] = useState("your text");
   const [textClickAnimation, settextClickAnimation] = useState(false);
   const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
@@ -40,10 +40,10 @@ const MessageInput = () => {
     "items-center",
     "border",
     // {
-    //   "animate-flip-up": landingAnimation,
-    //   "animate-once": landingAnimation,
-    //   "animate-duration-[1700ms]": landingAnimation,
-    //   "animate-delay-[700ms]": landingAnimation,
+    //   "animate-flip-up": landingAnimationDone,
+    //   "animate-once": landingAnimationDone,
+    //   "animate-duration-[1700ms]": landingAnimationDone,
+    //   "animate-delay-[700ms]": landingAnimationDone,
     // },
     {
       "border-b-[5px]": !textClickAnimation,
@@ -125,7 +125,7 @@ const MessageInput = () => {
             // if (!providedID) {
             //   e.preventDefault();
             //   setToggleError(true);
-            //   setLandingAnimation(false);
+            //   setlandingAnimationDone(false);
             // }
             // if (providedID.length < 36 || providedID.length > 36) {
             //   setLengthError(true);

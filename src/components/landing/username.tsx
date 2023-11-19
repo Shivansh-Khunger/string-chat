@@ -13,7 +13,7 @@ export function Username() {
 
   const [username, setUsername] = useState("");
   const [toggleError, setToggleError] = useState(false);
-  const [landingAnimation, setLandingAnimation] = useState(true);
+  const [landingAnimationDone, setlandingAnimationDone] = useState(true);
   const [inputPlaceHolder, setInputPlaceHolder] = useState("username");
 
   const updateUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,18 +22,24 @@ export function Username() {
 
   const inputClasses = clsx(
     // general
-    "justify-centre flex h-[6.5vh] w-52 items-center rounded-xl border border-b-0 border-black font-mono text-xl font-bold text-black shadow-[0px_4.5px_0px_0px_black] outline-none transition-all duration-300 ease-in-out will-change-transform",
+    "justify-centre flex h-[6.5vh] w-52 items-center rounded-xl border border-b-0 border-black font-mono text-xl font-bold text-black shadow-[0px_4.5px_0px_0px_black] outline-none transition-all duration-200 ease-in-out will-change-transform",
 
     // focus
-    "focus:translate-y-[-1px] focus:shadow-[-2px_5.5px_0px_0px_black] focus:ease-linear",
+    {
+      "focus:translate-y-[-1px] focus:shadow-[-2px_5.5px_0px_0px_black] focus:ease-linear":
+        !landingAnimationDone,
+    },
 
     // active
-    "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100",
+    {
+      "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100":
+        !landingAnimationDone,
+    },
 
     {
       // landing animation
-      "animate-fade-up animate-delay-[700ms] animate-duration-[1500ms] animate-once":
-        landingAnimation,
+      "animate-fade-up animate-delay-[500ms] animate-duration-[1500ms] animate-once":
+        landingAnimationDone,
     },
 
     {
@@ -46,16 +52,22 @@ export function Username() {
     // general
     "group flex h-[6.5vh] items-center justify-center rounded-xl border border-b-0 border-black font-mono text-xl font-semibold text-black shadow-[0px_4.5px_0px_0px_black] transition-all duration-300 ease-in-out will-change-transform",
 
-    // focus
-    "hover:-translate-y-[2px] hover:shadow-[-2px_5.5px_0px_0px_black]",
+    // hover
+    {
+      "hover:-translate-y-[2px] hover:shadow-[-2px_5.5px_0px_0px_black]":
+        !landingAnimationDone,
+    },
 
     // active
-    "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100",
+    {
+      "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100":
+        !landingAnimationDone,
+    },
 
     // landing animation
     {
-      "animate-fade-up animate-delay-[1000ms] animate-duration-[1500ms] animate-once":
-        landingAnimation,
+      "animate-fade-up animate-delay-[800ms] animate-duration-[1500ms] animate-once":
+        landingAnimationDone,
     },
   );
 
@@ -76,8 +88,8 @@ export function Username() {
   }, [toggleError]);
 
   ToggleStateOnRenderHook({
-    value: landingAnimation,
-    setValue: setLandingAnimation,
+    value: landingAnimationDone,
+    setValue: setlandingAnimationDone,
     delay: 2101,
   });
 
@@ -92,7 +104,7 @@ export function Username() {
         onKeyUp={(e: React.KeyboardEvent<HTMLDivElement>) => {
           onEnterPress(e);
         }}
-        disabled={landingAnimation}
+        disabled={landingAnimationDone}
       />
       <Button
         type="submit"
@@ -107,7 +119,7 @@ export function Username() {
             }, 150);
           }
         }}
-        disabled={landingAnimation}
+        disabled={landingAnimationDone}
       >
         get id
         <div className="ml-2 scale-150">

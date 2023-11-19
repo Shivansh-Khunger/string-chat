@@ -1,7 +1,9 @@
 import { Copy, ChevronUp, CheckCheck } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import classNames from "classnames";
+import clsx from "clsx";
+import { ToggleStateOnRenderHook } from "@/idk/toggleStateUseEffectOnRender";
+
 interface InfoProps {
   username: string;
   idString: string;
@@ -10,50 +12,54 @@ interface InfoProps {
 export default function Info(props: InfoProps) {
   //   const username = "my63";
   //   const idString = "23dc8479-1ee2-4776-850d-28fc1ce4a107";
-  const [clickAnimation, setClickAnimation] = useState(false);
-  const [landingAnimation, setLandingAnimation] = useState(true);
+  const [landingAnimationDone, setlandingAnimationDone] = useState(true);
   const [confirmCopy, setConfirmCopy] = useState(false);
+  const [copyExitAnimation, setCopyExitAnimation] = useState(false);
 
-  const containerClasses = classNames(
-    "flex",
-    "w-auto",
-    "justify-center",
-    "rounded-full",
-    "border",
-    "border-black",
-    "bg-slate-300",
-    "font-mono",
-    "will-change-transform",
+  const containerClasses = clsx(
+    // general
+    "group flex w-auto justify-center rounded-3xl border border-black bg-slate-300 font-mono shadow-[0px_4.5px_0px_0px_black] transition-all ease-in-out will-change-transform",
+
+    // landing
     {
-      "animate-fade-down": landingAnimation,
-      "animate-normal": landingAnimation,
-      "animate-once": landingAnimation,
-      "animate-duration[1500ms]": landingAnimation,
+      "animate-duration[1500ms] animate-fade-down animate-normal animate-once":
+        landingAnimationDone,
     },
-    "shadow-black",
+
+    //hover
     {
-      "shadow-[0px_5px_0px_0px_black]": !clickAnimation,
-      "shadow-[0px_3px_0px_0px_black]": clickAnimation,
-      "translate-y-[2px]": clickAnimation,
-      "duration-150": clickAnimation,
-      "transition-all": clickAnimation,
-      "ease-in-out": clickAnimation,
+      "hover:-translate-y-[1.5px] hover:shadow-[0px_5.5px_0px_0px_black] hover:duration-150 hover:ease-in-out":
+        !landingAnimationDone,
     },
   );
 
-  const buttonContainerClasses = classNames(
-    "rounded-xl",
-    "border-black",
-    "will-change-transform",
+  const buttonContainerClasses = clsx(
+    // general
+    "group flex items-center justify-center rounded-xl border border-b-0 border-black font-mono text-xl font-semibold text-black shadow-[0px_4.5px_0px_0px_black] transition-all duration-300 ease-in-out will-change-transform",
+
+    // active
     {
-      "shadow-[0px_3px_0px_0px_black]": !clickAnimation,
-      "shadow-[0px_1px_0px_0px_black]": clickAnimation,
-      "translate-y-[2px]": clickAnimation,
-      "duration-150": clickAnimation,
-      "transition-all": clickAnimation,
-      "ease-in-out": clickAnimation,
+      "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100":
+        !landingAnimationDone,
+    },
+
+    // hover
+    {
+      "hover:-translate-y-[2px] hover:shadow-[0px_5.5px_0px_0px_black]":
+        !landingAnimationDone,
     },
   );
+
+  const copyConfirmButtonClasses = clsx({
+    "animate-jump-in": copyExitAnimation,
+    "animate-jump-out": !copyExitAnimation,
+  });
+
+  ToggleStateOnRenderHook({
+    value: landingAnimationDone,
+    setValue: setlandingAnimationDone,
+    delay: 1501,
+  });
 
   return (
     <div className="relative flex w-screen justify-center p-[5px]">
@@ -79,35 +85,33 @@ export default function Info(props: InfoProps) {
                 className="w-[8vh] shadow-none"
                 onClick={() => {
                   navigator.clipboard.writeText(props.idString);
-                  setLandingAnimation(false);
-                  setClickAnimation(true);
-                  const animationTimer = setTimeout(() => {
-                    setClickAnimation(false);
-                    setConfirmCopy(true);
-                  }, 151);
+                  setConfirmCopy(true);
+                  setCopyExitAnimation(true);
+
+                  const copyExitTimer = setTimeout(() => {
+                    setCopyExitAnimation(false);
+                  }, 500);
+
                   const confirmTimer = setTimeout(() => {
                     setConfirmCopy(false);
                   }, 800);
                   return () => {
-                    clearTimeout(animationTimer);
                     clearTimeout(confirmTimer);
+                    clearTimeout(copyExitTimer);
                   };
                 }}
-                onMouseDown={() => {
-                  setClickAnimation(true);
-                  setLandingAnimation(false);
-                }}
-                onMouseOut={() => {
-                  setClickAnimation(false);
-                }}
               >
-                {confirmCopy ? <CheckCheck /> : <Copy />}
+                {confirmCopy ? (
+                  <CheckCheck className={copyConfirmButtonClasses} />
+                ) : (
+                  <Copy />
+                )}
                 <div className="animate-fade animate-duration-500 animate-once animate-ease-out"></div>
               </Button>
             </div>
             <span className="text-lg font-semibold">
               {" "}
-              {" <- "}want to copy it ?
+              &lt;- want to copy it ?
             </span>
           </div>
         </div>
