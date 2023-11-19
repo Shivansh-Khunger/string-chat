@@ -4,12 +4,13 @@ import { useState } from "react";
 import clsx from "clsx";
 import { ToggleStateOnRenderHook } from "@/idk/toggleStateUseEffectOnRender";
 
-interface InfoProps {
-  username: string;
-  idString: string;
-}
+import { InfoProps } from "@/interfaces/infoProps";
 
-export default function Info(props: InfoProps) {
+const Info: React.FC<InfoProps> = ({
+  newUser,
+  connectionMade,
+  connectedUsername,
+}) => {
   //   const username = "my63";
   //   const idString = "23dc8479-1ee2-4776-850d-28fc1ce4a107";
   const [landingAnimationDone, setlandingAnimationDone] = useState(true);
@@ -66,13 +67,20 @@ export default function Info(props: InfoProps) {
       <div className="mb-0 flex justify-center">
         <div className={containerClasses}>
           <div className="flex items-center justify-center border-r-2 border-dashed border-black px-2">
-            <span className="text-lg font-semibold">
-              your ^_^ username {" -> "} {props.username}
-            </span>
+            <div className="flex flex-col">
+              <span className="text-lg font-semibold">
+                your ^_^ username {" -> "} {newUser.username}
+              </span>
+              {connectionMade && connectedUsername ? (
+                <span className="mb-1 text-lg font-semibold">
+                  connected to ^_^ {" -> "} {connectedUsername}
+                </span>
+              ) : null}
+            </div>
           </div>
           <div className="flex items-center justify-center border-r-2 border-dashed border-black px-2">
             <div className="flex flex-col items-center justify-center">
-              <span className=" text-lg">{props.idString}</span>
+              <span className=" text-lg">{newUser.module.id}</span>
               <div className="flex justify-center gap-2 text-lg font-semibold">
                 your unique id
                 <ChevronUp />
@@ -84,7 +92,7 @@ export default function Info(props: InfoProps) {
               <Button
                 className="w-[8vh] shadow-none"
                 onClick={() => {
-                  navigator.clipboard.writeText(props.idString);
+                  navigator.clipboard.writeText(newUser.module.id);
                   setConfirmCopy(true);
                   setCopyExitAnimation(true);
 
@@ -118,4 +126,6 @@ export default function Info(props: InfoProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Info;

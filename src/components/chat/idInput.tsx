@@ -124,11 +124,11 @@ const IdInput: React.FC<idChildProps> = ({
           if (providedID.length < 36 || providedID.length > 36) {
             setLengthError(true);
           }
-          if (providedID.length == 36 && providedID != user.module.id) {
-            setIDInputRecieved(true);
-          }
           if (providedID === user.module.id) {
             setOwnIDError(true);
+          }
+          if (providedID.length == 36 && providedID != user.module.id) {
+            setIDInputRecieved(true);
           }
         }}
       >

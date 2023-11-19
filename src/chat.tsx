@@ -17,6 +17,8 @@ export function Chat() {
 
   const [transition, setTransition] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [connectionMade, setConnectionMade] = useState(false);
+  const [connectedUsername, setConnectedUsername] = useState("");
 
   useEffect(() => {
     peer.on("open", (id) => {
@@ -42,8 +44,18 @@ export function Chat() {
   // setTransition(true);
   return (
     <div className="h-screen w-screen">
-      <Info idString={newUser.module.id} username={newUser.username} />
-      <ChatBox {...newUser} />
+      <Info
+        newUser={newUser}
+        connectionMade={connectionMade}
+        setConnectionMade={setConnectionMade}
+        connectedUsername={connectedUsername}
+      />
+      <ChatBox
+        newUser={newUser}
+        connectionMade={connectionMade}
+        setConnectionMade={setConnectionMade}
+        setConnectedUsername={setConnectedUsername}
+      />
     </div>
   );
 }

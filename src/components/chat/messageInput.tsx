@@ -1,83 +1,94 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/modifiedInput";
 import { useEffect, useState } from "react";
-import classNames from "classnames";
+import clsx from "clsx";
+import { ToggleStateOnRenderHook } from "@/idk/toggleStateUseEffectOnRender";
 
-const MessageInput = () => {
-  // const [username, setUsername] = useState("");
+interface messageInputProps {
+  setTypedMessage: React.Dispatch<React.SetStateAction<string>>;
+  setSendMessage: React.Dispatch<React.SetStateAction<boolean>>;
+  typedMessage: string;
+}
+
+const MessageInput: React.FC<messageInputProps> = ({
+  setTypedMessage,
+  typedMessage,
+  setSendMessage,
+}) => {
   const [toggleError, setToggleError] = useState(false);
-  const [inputPlaceHolder, setInputPlaceHolder] = useState("your text");
-  const [textClickAnimation, settextClickAnimation] = useState(false);
-  const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
+  const [inputPlaceHolder, setInputPlaceHolder] = useState("your message");
+  const [landingAnimationDone, setlandingAnimationDone] = useState(true);
 
-  //   const updateProvidedID = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setProvidedID(e.target.value);
-  //   };
+  const updateTypedMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTypedMessage(e.target.value);
+  };
 
-  const inputClasses = classNames(
-    "text-black",
-    "font-mono",
-    "font-bold",
-    "text-xl",
-    "border-0",
-    "shadow-none",
-    "w-[115vh]",
+  const onEnterPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key == "Enter") {
+      setSendMessage(true);
+    }
+  };
+
+  const inputClasses = clsx(
+    // general
+    "justify-centre flex h-[6.5vh] w-[50rem] items-center rounded-xl border border-b-0 border-black font-mono text-xl font-bold text-black shadow-[0px_4.5px_0px_0px_black] outline-none transition-all duration-200 ease-in-out will-change-transform",
+
+    // focus
     {
-      "animate-shake": toggleError,
-      "animate-duration-[200ms]": toggleError,
+      "focus:translate-y-[-1px] focus:shadow-[-2px_5.5px_0px_0px_black] focus:ease-linear":
+        !landingAnimationDone,
+    },
+
+    // active
+    {
+      "active:translate-y-[2px] active:shadow-[-1.5px_3.5px_0px_0px_black] active:duration-100":
+        !landingAnimationDone,
+    },
+
+    {
+      // landing animation
+      "animate-fade-down animate-delay-[500ms] animate-duration-[800ms] animate-once":
+        landingAnimationDone,
+    },
+
+    {
+      // error toggling
+      " animate-shake animate-duration-[200ms]": toggleError,
     },
   );
 
-  const inputContainerClasses = classNames(
-    "h-[6.5vh]",
-    "rounded-xl",
-    "border-black",
-    "flex",
-    "justify-centre",
-    "items-center",
-    "border",
-    // {
-    //   "animate-flip-up": landingAnimationDone,
-    //   "animate-once": landingAnimationDone,
-    //   "animate-duration-[1700ms]": landingAnimationDone,
-    //   "animate-delay-[700ms]": landingAnimationDone,
-    // },
+  const buttonClasses = clsx(
+    // general
+    "group flex h-[6.5vh] items-center justify-center rounded-xl border border-b-0 border-black font-mono text-xl font-semibold text-black shadow-[0px_4.5px_0px_0px_black] transition-all duration-300 ease-in-out will-change-transform",
+
+    // hover
     {
-      "border-b-[5px]": !textClickAnimation,
-      "border-b-[3.5px]": textClickAnimation,
+      "hover:-translate-y-[2px] hover:shadow-[-2px_5.5px_0px_0px_black]":
+        !landingAnimationDone,
+    },
+
+    // active
+    {
+      "active:translate-y-[2px] active:shadow-[-1.5px_3.5px_0px_0px_black] active:duration-100":
+        !landingAnimationDone,
+    },
+
+    // landing animation
+    {
+      "animate-fade-left animate-delay-[800ms] animate-duration-[800ms] animate-once":
+        landingAnimationDone,
     },
   );
 
-  const buttonClasses = classNames(
-    "font-mono",
-    "text-xl",
-    "font-semibold",
-    "text-black",
-    "border-0",
-    "shadow-none",
-  );
-
-  const buttonContainerClasses = classNames(
-    "flex",
-    "h-[6.5vh]",
-    // "animate-flip-up",
-    "items-center",
-    "justify-center",
-    "rounded-xl",
-    "border",
-    "border-black",
-    // "animate-delay-[1000ms]",
-    // "animate-duration-[1700ms]",
-    // "animate-once",
-    {
-      "border-b-[5px]": !buttonClickAnimation,
-      "border-b-[3.5px]": buttonClickAnimation,
-    },
-  );
+  ToggleStateOnRenderHook({
+    value: landingAnimationDone,
+    setValue: setlandingAnimationDone,
+    delay: 1601,
+  });
 
   useEffect(() => {
     if (toggleError) {
-      setInputPlaceHolder("your text ... (!)");
+      setInputPlaceHolder("your message ... (!)");
       const timer = setTimeout(() => {
         setToggleError(false);
       }, 201);
@@ -87,46 +98,52 @@ const MessageInput = () => {
 
   return (
     <div className="flex h-[7%] justify-center gap-6 pb-4">
-      <div className={inputContainerClasses}>
-        <Input
-          type="text"
-          placeholder={inputPlaceHolder}
-          className={inputClasses}
-          //   value={providedID}
-          //   onChange={updateProvidedID}
-          onClick={() => {
-            settextClickAnimation(true);
-            const clickAnimationTimer = setTimeout(() => {
-              settextClickAnimation(false);
-            }, 90);
-            return () => clearTimeout(clickAnimationTimer);
-          }}
-          onMouseDown={() => {
-            settextClickAnimation(true);
-          }}
-          onMouseOut={() => {
-            settextClickAnimation(false);
-          }}
-        />
-      </div>
+      <Input
+        type="text"
+        placeholder={inputPlaceHolder}
+        className={inputClasses}
+        value={typedMessage}
+        onChange={updateTypedMessage}
+        onKeyUp={(e: React.KeyboardEvent<HTMLDivElement>) => {
+          onEnterPress(e);
+        }}
+      />
 
-      <div className={buttonContainerClasses}>
-        <Button
-          type="submit"
-          className={buttonClasses}
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            e; // just for tsx
-          }}
-          onMouseDown={() => {
-            setButtonClickAnimation(true);
-          }}
-          onMouseOut={() => {
-            setButtonClickAnimation(false);
-          }}
-        >
-          send text
-        </Button>
-      </div>
+      <Button
+        type="submit"
+        className={buttonClasses}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          if (!typedMessage) {
+            e.preventDefault();
+            setToggleError(true);
+          } else {
+            setTimeout(() => {
+              setSendMessage(true);
+            }, 150);
+          }
+        }}
+      >
+        send text
+        <div className="ml-2 scale-150">
+          <svg
+            className="stroke-black stroke-2"
+            fill="none"
+            width="18"
+            height="10"
+            viewBox="0 0 10 10"
+            aria-hidden="true"
+          >
+            <path
+              className="opacity-0 transition duration-300 group-hover:opacity-100"
+              d="M0 5h7"
+            ></path>
+            <path
+              className="transition duration-200 group-hover:translate-x-[7.2px]"
+              d="M1 1l4 4-4 4"
+            ></path>
+          </svg>
+        </div>
+      </Button>
     </div>
   );
 };

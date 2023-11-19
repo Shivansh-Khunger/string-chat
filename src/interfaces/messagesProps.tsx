@@ -1,4 +1,3 @@
 export interface messageProps {
-  username: string;
-  message: string;
+  message: any;
 }
