@@ -1,14 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
-import { idChildProps } from "@/interfaces/idChildProps";
 
 const MessageInput = () => {
   // const [username, setUsername] = useState("");
   const [toggleError, setToggleError] = useState(false);
-  const [landingAnimationDone, setlandingAnimationDone] = useState(true);
   const [inputPlaceHolder, setInputPlaceHolder] = useState("your text");
   const [textClickAnimation, settextClickAnimation] = useState(false);
   const [buttonClickAnimation, setButtonClickAnimation] = useState(false);
@@ -118,21 +115,7 @@ const MessageInput = () => {
           type="submit"
           className={buttonClasses}
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            setButtonClickAnimation(true);
-            const clickAnimationTimer = setTimeout(() => {
-              setButtonClickAnimation(false);
-            }, 100);
-            // if (!providedID) {
-            //   e.preventDefault();
-            //   setToggleError(true);
-            //   setlandingAnimationDone(false);
-            // }
-            // if (providedID.length < 36 || providedID.length > 36) {
-            //   setLengthError(true);
-            // }
-            // if (providedID.length == 36) {
-            //   setIDInputRecieved(true);
-            // }
+            e; // just for tsx
           }}
           onMouseDown={() => {
             setButtonClickAnimation(true);

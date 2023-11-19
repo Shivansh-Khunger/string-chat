@@ -1,6 +1,7 @@
 import { messageProps } from "@/interfaces/messagesProps";
 
 const SendMessage: React.FC<messageProps> = ({ message, username }) => {
+  username; //just for tsx
   return (
     <>
       <li className="my-4 ml-[46rem] flex items-end justify-end gap-2">

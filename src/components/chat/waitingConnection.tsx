@@ -1,5 +1,5 @@
 import IdInput from "./idInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import clsx from "clsx";
 import { idChildProps } from "@/interfaces/idChildProps";
 import {

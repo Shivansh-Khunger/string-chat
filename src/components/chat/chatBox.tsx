@@ -1,7 +1,7 @@
 import { User } from "@/interfaces/user";
 import WaitingConnection from "./waitingConnection";
 import ChatBoxContent from "./chatBoxContent";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ChatBox(newUser: User) {
   const [providedID, setProvidedID] = useState("");
@@ -22,6 +22,7 @@ export default function ChatBox(newUser: User) {
       var conn = newUser.module.connect(providedID, {
         metadata: newUser.username,
       });
+      conn; // just for tsx
     }
   }, [idInputRecieved]);
 

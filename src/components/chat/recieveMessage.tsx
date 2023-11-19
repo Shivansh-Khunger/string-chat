@@ -1,5 +1,4 @@
 import { messageProps } from "@/interfaces/messagesProps";
-import { useState } from "react";
 
 const RecieveMessage: React.FC<messageProps> = ({ message, username }) => {
   return (

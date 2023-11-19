@@ -1,4 +1,3 @@
-import { Send } from "lucide-react";
 import MessageInput from "./messageInput";
 import RecieveMessage from "./recieveMessage";
 import SendMessage from "./sendMessage";
