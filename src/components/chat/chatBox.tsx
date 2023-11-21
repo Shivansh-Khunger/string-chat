@@ -11,6 +11,7 @@ interface chatBoxProps {
   connectionMade: boolean;
   setConnectionMade: React.Dispatch<React.SetStateAction<boolean>>;
   setConnectedUsername: React.Dispatch<React.SetStateAction<string>>;
+  setConnectionToServerFailed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChatBox: React.FC<chatBoxProps> = ({
@@ -28,13 +29,11 @@ const ChatBox: React.FC<chatBoxProps> = ({
   const [typedMessage, setTypedMessage] = useState("");
 
   useEffect(() => {
-    // Making this peer available for connections
     newUser.module.on("connection", (conn) => {
       setConnectionMade(true);
       setdataConnectionObject(conn);
       setConnectedUsername(conn.metadata);
       conn.on("open", () => {
-        // Default Message for Mettadata Transfer
         conn.send({
           type: 1,
           message: newUser.username,
@@ -44,6 +43,33 @@ const ChatBox: React.FC<chatBoxProps> = ({
   }, []);
 
   useEffect(() => {
+    if (!idInputRecieved) return;
+
+    if (idInputRecieved) {
+      setConnectionMade(true);
+      var conn = newUser.module.connect(providedID, {
+        metadata: newUser.username,
+      });
+      setdataConnectionObject(conn);
+      // conn.on("open", function () {
+      //   conn.on("data", (data: any) => {
+      //     if (data.type == 1) {
+      //       setConnectedUsername(data.message);
+      //     }
+      //     if (data.type == 2) {
+      //       setMessageList((prevValue) => [
+      //         ...prevValue,
+      //         <RecieveMessage message={data.message} />,
+      //       ]);
+      //     }
+      //   });
+      // });
+    }
+  }, [idInputRecieved]);
+
+  useEffect(() => {
+    if (!sendMessage) return;
+    console.log("I'm in Send Message Use Effect");
     if (sendMessage) {
       dataConnectionObject?.send({
         type: 2,
@@ -63,27 +89,29 @@ const ChatBox: React.FC<chatBoxProps> = ({
   }, [sendMessage]);
 
   useEffect(() => {
-    if (idInputRecieved) {
-      setConnectionMade(true);
-      var conn = newUser.module.connect(providedID, {
-        metadata: newUser.username,
-      });
-      setdataConnectionObject(conn);
-    }
-  }, [idInputRecieved]);
-
-  useEffect(() => {
-    dataConnectionObject?.on("data", (data: any) => {
+    const handleData = (data: any) => {
       if (data.type == 1) {
         setConnectedUsername(data.message);
       }
       if (data.type == 2) {
+        console.log("Recieve event Listner");
         setMessageList((prevValue) => [
           ...prevValue,
           <RecieveMessage message={data.message} />,
         ]);
       }
-    });
+    };
+
+    dataConnectionObject?.on("data", handleData);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      dataConnectionObject?.off("data", handleData);
+    };
+  }, [dataConnectionObject]); // Re-run the effect when dataConnectionObject changes
+
+  useEffect(() => {
+    console.log(messageList);
   }, [messageList]);
 
   return (

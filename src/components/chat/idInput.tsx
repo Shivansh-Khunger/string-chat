@@ -48,7 +48,7 @@ const IdInput: React.FC<idChildProps> = ({
 
   const buttonClasses = clsx(
     // general
-    "group flex h-[6.5vh] items-center justify-center rounded-xl border border-b-0 border-black font-mono text-xl font-semibold text-black shadow-[0px_4.5px_0px_0px_black] transition-all duration-300 ease-in-out will-change-transform",
+    "group flex h-[6.5vh] items-center justify-center rounded-xl border border-b-0 border-black font-mono text-xl font-semibold text-black shadow-[0px_4.5px_0px_0px_black] transition-all duration-200 ease-in-out will-change-transform",
 
     // focus
     "hover:-translate-y-[2px] hover:shadow-[-2px_5.5px_0px_0px_black]",
@@ -77,7 +77,6 @@ const IdInput: React.FC<idChildProps> = ({
     if (lengthError) {
       setProvidedID("");
       setInputPlaceHolder("not a valid id (!)");
-      console.log("inside lenght error");
       const timer = setTimeout(() => {
         setLengthError(false);
       }, 201);
@@ -89,7 +88,6 @@ const IdInput: React.FC<idChildProps> = ({
     if (ownIDError) {
       setProvidedID("");
       setInputPlaceHolder("can't use own id (!)");
-      console.log("inside ownIDError error");
       const timer = setTimeout(() => {
         setOwnIDError(false);
       }, 201);
@@ -103,6 +101,40 @@ const IdInput: React.FC<idChildProps> = ({
     delay: 2001,
   });
 
+  const handleButtonClick = (e: React.MouseEvent) => {
+    if (!providedID) {
+      e.preventDefault();
+      setToggleError(true);
+    }
+    if (providedID.length < 36 || providedID.length > 36) {
+      setLengthError(true);
+    }
+    if (providedID == user.module.id) {
+      setOwnIDError(true);
+    }
+    if (providedID.length == 36 && providedID != user.module.id) {
+      setIDInputRecieved(true);
+    }
+  };
+
+  const onKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key == "Enter") {
+      if (!providedID) {
+        e.preventDefault();
+        setToggleError(true);
+      }
+      if (providedID.length < 36 || providedID.length > 36) {
+        setLengthError(true);
+      }
+      if (providedID === user.module.id) {
+        setOwnIDError(true);
+      }
+      if (providedID.length == 36 && providedID != user.module.id) {
+        setIDInputRecieved(true);
+      }
+    }
+  };
+
   return (
     <div className="flex justify-center gap-6 py-2">
       <Input
@@ -111,26 +143,13 @@ const IdInput: React.FC<idChildProps> = ({
         className={inputClasses}
         value={providedID}
         onChange={updateProvidedID}
+        onKeyUp={onKeyPress}
       />
 
       <Button
         type="submit"
         className={buttonClasses}
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-          if (!providedID) {
-            e.preventDefault();
-            setToggleError(true);
-          }
-          if (providedID.length < 36 || providedID.length > 36) {
-            setLengthError(true);
-          }
-          if (providedID === user.module.id) {
-            setOwnIDError(true);
-          }
-          if (providedID.length == 36 && providedID != user.module.id) {
-            setIDInputRecieved(true);
-          }
-        }}
+        onClick={handleButtonClick}
       >
         get them
         <svg

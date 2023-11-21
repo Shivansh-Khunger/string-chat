@@ -3,6 +3,7 @@ import Peer from "peerjs";
 import { useEffect, useMemo, useState } from "react";
 import Info from "./components/chat/info";
 import Loading from "./components/chat/loading";
+import ConnectionToServerFailed from "./components/chat/connectionToServerFailed";
 import ChatBox from "./components/chat/chatBox";
 import { User } from "./interfaces/user";
 
@@ -19,6 +20,8 @@ export function Chat() {
   const [loading, setLoading] = useState(true);
   const [connectionMade, setConnectionMade] = useState(false);
   const [connectedUsername, setConnectedUsername] = useState("");
+  const [connectionToServerFailed, setConnectionToServerFailed] =
+    useState(false);
 
   useEffect(() => {
     peer.on("open", (id) => {
@@ -27,7 +30,15 @@ export function Chat() {
   }, [peer]);
 
   useEffect(() => {
-    if (peer.id) {
+    peer.on("error", (err) => {
+      if (err.type == "network" || "socket-error") {
+        setConnectionToServerFailed(true);
+      }
+    });
+  }, [peer]);
+
+  useEffect(() => {
+    if (peer.id && !connectionToServerFailed) {
       setTransition(true);
       setTimeout(() => {
         setLoading(false);
@@ -35,10 +46,9 @@ export function Chat() {
     }
   }, [peer.id]);
 
-  console.log("Username - ", newUser.username);
-  console.log("Id - ", newUser.module.id);
-
-  if (loading) {
+  if (connectionToServerFailed) {
+    return <ConnectionToServerFailed />;
+  } else if (loading) {
     return <Loading transition={transition} />;
   }
   // setTransition(true);
@@ -55,6 +65,7 @@ export function Chat() {
         connectionMade={connectionMade}
         setConnectionMade={setConnectionMade}
         setConnectedUsername={setConnectedUsername}
+        setConnectionToServerFailed={setConnectionToServerFailed}
       />
     </div>
   );

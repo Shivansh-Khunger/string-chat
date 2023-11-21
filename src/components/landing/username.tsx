@@ -60,7 +60,7 @@ export function Username() {
 
     // active
     {
-      "active:translate-y-[2px] active:shadow-[0px_3.5px_0px_0px_black] active:duration-100":
+      "active:translate-y-[2px] active:shadow-[-1.5px_3.5px_0px_0px_black] active:duration-100":
         !landingAnimationDone,
     },
 

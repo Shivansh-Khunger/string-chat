@@ -1,4 +1,3 @@
-// import { ThemeProvider } from "./components/theme-provider.tsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Landing } from "./landing.tsx";
 import { Chat } from "./chat.tsx";
