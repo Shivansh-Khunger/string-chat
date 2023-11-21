@@ -91,7 +91,7 @@ const Info: React.FC<InfoProps> = ({
   const handleButtonClick = () => {
     newUser.module.disconnect();
     newUser.module.destroy();
-    navigate("/string-chat/");
+    navigate("/");
   };
 
   return (

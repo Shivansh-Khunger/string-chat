@@ -22,7 +22,7 @@ const ConnectionToServerFailed = () => {
 
   const handleButtonClick = () => {
     const timer = setTimeout(() => {
-      navigate("/string-chat/");
+      navigate("/");
     }, 201);
     return () => clearTimeout(timer);
   };
