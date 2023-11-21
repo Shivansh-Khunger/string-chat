@@ -6,6 +6,7 @@ import Loading from "./components/chat/loading";
 import ConnectionToServerFailed from "./components/chat/connectionToServerFailed";
 import ChatBox from "./components/chat/chatBox";
 import { User } from "./interfaces/user";
+import ConnectionToPeerFailed from "./components/chat/connectionToPeerFailed";
 
 export function Chat() {
   let { state } = useLocation();
@@ -22,6 +23,7 @@ export function Chat() {
   const [connectedUsername, setConnectedUsername] = useState("");
   const [connectionToServerFailed, setConnectionToServerFailed] =
     useState(false);
+  const [connectionIsMaintained, setConnectionIsMaintained] = useState(true);
 
   useEffect(() => {
     peer.on("open", (id) => {
@@ -38,7 +40,7 @@ export function Chat() {
   }, [peer]);
 
   useEffect(() => {
-    if (peer.id && !connectionToServerFailed) {
+    if (peer.id && !connectionToServerFailed && connectionIsMaintained) {
       setTransition(true);
       setTimeout(() => {
         setLoading(false);
@@ -46,12 +48,23 @@ export function Chat() {
     }
   }, [peer.id]);
 
+  useEffect(() => {
+    if (!connectionIsMaintained) {
+      setTimeout(() => {
+        setConnectionIsMaintained(true);
+      }, 3000);
+    }
+  }, [connectionIsMaintained]);
+
   if (connectionToServerFailed) {
     return <ConnectionToServerFailed />;
+  }
+  if (!connectionIsMaintained) {
+    return <ConnectionToPeerFailed transition={transition} />;
   } else if (loading) {
     return <Loading transition={transition} />;
   }
-  // setTransition(true);
+
   return (
     <div className="h-screen w-screen">
       <Info
@@ -66,6 +79,7 @@ export function Chat() {
         setConnectionMade={setConnectionMade}
         setConnectedUsername={setConnectedUsername}
         setConnectionToServerFailed={setConnectionToServerFailed}
+        setConnectionIsMaintained={setConnectionIsMaintained}
       />
     </div>
   );
