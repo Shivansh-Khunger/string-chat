@@ -11,5 +11,5 @@ export default defineConfig({
     },
   },
   server: { https: true },
-  base: "/string-chat/",
+  base: "",
 });
