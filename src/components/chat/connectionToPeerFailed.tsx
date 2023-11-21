@@ -20,12 +20,6 @@ const ConnectionToPeerFailed: React.FC<LoadingProps> = ({ transition }) => {
     },
   );
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate("");
-    }, 201);
-    return () => clearTimeout(timer);
-  });
 
   return (
     <div className={containerClasses}>
