@@ -1,12 +1,9 @@
 import clsx from "clsx";
-// import { Button } from "../ui/button";
-// import { useNavigate } from "react-router-dom";
 interface LoadingProps {
   transition: boolean;
 }
 
 const DisconnectedFromPeer: React.FC<LoadingProps> = ({ transition }) => {
-  //   let navigate = useNavigate();
   const containerClasses = clsx(
     "flex h-full w-full items-center justify-center overflow-hidden",
     {
