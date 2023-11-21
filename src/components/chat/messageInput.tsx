@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/modifiedInput";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { ToggleStateOnRenderHook } from "@/idk/toggleStateUseEffectOnRender";
+import { ToggleStateOnRenderHook } from "@/custom hooks/toggleStateUseEffectOnRender";
 
 interface messageInputProps {
   setTypedMessage: React.Dispatch<React.SetStateAction<string>>;

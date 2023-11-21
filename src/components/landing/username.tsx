@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
-import { ToggleStateOnRenderHook } from "@/idk/toggleStateUseEffectOnRender";
+import { ToggleStateOnRenderHook } from "@/custom hooks/toggleStateUseEffectOnRender";
 
 export function Username() {
   let navigate = useNavigate();

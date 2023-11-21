@@ -5,7 +5,7 @@ import { idChildProps } from "@/interfaces/idChildProps";
 import {
   ToggleStateOnRenderHook,
   ToggleStateOnStateChangeHook,
-} from "@/idk/toggleStateUseEffectOnRender";
+} from "@/custom hooks/toggleStateUseEffectOnRender";
 
 const WaitingConnection: React.FC<idChildProps> = ({
   setProvidedID,

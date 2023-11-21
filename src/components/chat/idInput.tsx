@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { idChildProps } from "@/interfaces/idChildProps";
 
 import clsx from "clsx";
-import { ToggleStateOnRenderHook } from "@/idk/toggleStateUseEffectOnRender";
+import { ToggleStateOnRenderHook } from "@/custom hooks/toggleStateUseEffectOnRender";
 
 const IdInput: React.FC<idChildProps> = ({
   setProvidedID,

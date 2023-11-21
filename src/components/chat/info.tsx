@@ -2,7 +2,7 @@ import { Copy, ChevronUp, CheckCheck } from "lucide-react";
 import { Button } from "../ui/button";
 import React, { useState } from "react";
 import clsx from "clsx";
-import { ToggleStateOnRenderHook } from "@/idk/toggleStateUseEffectOnRender";
+import { ToggleStateOnRenderHook } from "@/custom hooks/toggleStateUseEffectOnRender";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
