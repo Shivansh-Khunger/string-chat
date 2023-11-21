@@ -13,8 +13,6 @@ const Info: React.FC<InfoProps> = ({
   connectionMade,
   connectedUsername,
 }) => {
-  //   const username = "my63";
-  //   const idString = "23dc8479-1ee2-4776-850d-28fc1ce4a107";
   const [landingAnimationDone, setlandingAnimationDone] = useState(true);
   const [confirmCopy, setConfirmCopy] = useState(false);
   const [copyExitAnimation, setCopyExitAnimation] = useState(false);
