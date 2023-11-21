@@ -164,7 +164,7 @@ const Info: React.FC<InfoProps> = ({
               title="terminate session"
               onClick={handleButtonClick}
             >
-              <Plus className="rotate-45 transition-all duration-300 group-hover:rotate-[135deg]" />
+              <Plus className="rotate-45 transition-all duration-300 group-hover:-rotate-45 group-active:rotate-45" />
             </Button>
           </div>
         </div>

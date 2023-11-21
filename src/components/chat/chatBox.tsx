@@ -10,15 +10,19 @@ interface chatBoxProps {
   newUser: User;
   connectionMade: boolean;
   setConnectionMade: React.Dispatch<React.SetStateAction<boolean>>;
+  connectedUsername: String;
   setConnectedUsername: React.Dispatch<React.SetStateAction<string>>;
   setConnectionToServerFailed: React.Dispatch<React.SetStateAction<boolean>>;
+  setPeerConnectionLost: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChatBox: React.FC<chatBoxProps> = ({
   newUser,
   connectionMade,
   setConnectionMade,
+  connectedUsername,
   setConnectedUsername,
+  setPeerConnectionLost,
 }) => {
   const [providedID, setProvidedID] = useState("");
   const [idInputRecieved, setIDInputRecieved] = useState(false);
@@ -27,6 +31,9 @@ const ChatBox: React.FC<chatBoxProps> = ({
   const [messageList, setMessageList] = useState<ReactNode[]>([]);
   const [sendMessage, setSendMessage] = useState(false);
   const [typedMessage, setTypedMessage] = useState("");
+  const [lastConfirmationTime, setLastConfirmationTime] = useState(Date.now());
+  const [sendConfirmationMessageToggle, setSendConfirmationMessageToggle] =
+    useState(false);
 
   useEffect(() => {
     newUser.module.on("connection", (conn) => {
@@ -100,6 +107,10 @@ const ChatBox: React.FC<chatBoxProps> = ({
           <RecieveMessage message={data.message} />,
         ]);
       }
+      if (data.type == 3) {
+        setLastConfirmationTime(Date.now());
+        console.log("Confirmation Message Recieved");
+      }
     };
 
     dataConnectionObject?.on("data", handleData);
@@ -111,8 +122,35 @@ const ChatBox: React.FC<chatBoxProps> = ({
   }, [dataConnectionObject]); // Re-run the effect when dataConnectionObject changes
 
   useEffect(() => {
-    console.log(messageList);
-  }, [messageList]);
+    if (connectionMade && connectedUsername != "") {
+      const intervalId = setInterval(() => {
+        if (Date.now() - lastConfirmationTime > 5000) {
+          setPeerConnectionLost(true);
+        } else {
+        }
+      }, 1000); // Check every second
+
+      return () => {
+        clearInterval(intervalId); // Clean up the interval on unmount
+      };
+    }
+  }, [lastConfirmationTime]);
+
+  useEffect(() => {
+    if (connectionMade && connectedUsername != "") {
+      dataConnectionObject?.send({
+        type: 3,
+      });
+    }
+
+    const timeout = setTimeout(() => {
+      setSendConfirmationMessageToggle((preValue) => {
+        return !preValue;
+      });
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [sendConfirmationMessageToggle]);
 
   return (
     <div className="flex h-[90%] w-full items-center justify-center font-mono ">
