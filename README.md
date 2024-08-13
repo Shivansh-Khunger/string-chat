@@ -10,8 +10,8 @@ String-Chat is a peer-to-peer (P2P) chat application based on Peer.js. It allows
 
 ## Screenshots
 
-![Screenshot 1](./assets/landing-ss.png)
-![Screenshot 2](./assets/chat-ss.png)
+![Screenshot 1](https://github.com/Shivansh-Khunger/string-chat/raw/12f5d92ea845c9cca56435fd68f82c0db19a3322/assets/landing-ss.png)
+![Screenshot 2](https://github.com/Shivansh-Khunger/string-chat/raw/12f5d92ea845c9cca56435fd68f82c0db19a3322/assets/chat-ss.png)
 
 ## Installation
 
